@@ -8,7 +8,7 @@
     <meta name="robots" content="noindex, nofollow">
     <meta name="googlebot" content="noindex, nofollow">
     
-    <title>馬博士筋骨整復 × 湧健康 | 內部文件閱讀器 (v1.7)</title>
+    <title>馬博士筋骨整復 × 湧健康 | 內部文件閱讀器 (v1.8 - 2026/07/20 22:26)</title>
     
     <!-- 預先宣告全域 Tailwind 設定，確保樣式流暢 -->
     <script>
@@ -39,7 +39,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Google Fonts - Noto Sans TC 提供頂級的文字渲染 -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght=300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
     <!-- 載入 Mozilla 官方權威 PDF.js 渲染引擎 CDN，解決所有手機無法翻頁滑動的問題 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
@@ -88,6 +88,16 @@
         .text-amberAccent-500 {
             color: #f59e0b !important;
         }
+
+        /* 🚨 終極物理防護：徹底解決 iOS / Android 手機上 Canvas 被壓縮扁平的 Bug 🚨 */
+        canvas {
+            display: block !important;
+            width: 100% !important;
+            height: auto !important; /* 強制瀏覽器依照 PDF 的原生寬高比例自動伸長，杜絕扁平化 */
+            max-width: 100% !important;
+            margin: 0 auto !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col relative">
@@ -105,7 +115,8 @@
                 </div>
             </div>
 
-            <h1 class="text-2xl font-bold text-gray-900 mb-2">內部文件閱讀專區 <span class="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full font-mono">v1.7</span></h1>
+            <h1 class="text-2xl font-bold text-gray-900 mb-2">內部文件閱讀專區 <span class="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full font-mono">v1.8</span></h1>
+            <p class="text-xs text-gray-400 mb-4 font-mono">更新時間：2026-07-20 22:26</p>
             <p class="text-sm text-gray-600 mb-6">
                 本網頁為「馬博士筋骨整復 × 湧健康」高雄合作專案之內部交流與資料庫。請輸入授權閱讀密碼。
             </p>
@@ -146,11 +157,12 @@
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
                         <div class="flex items-center gap-3 mb-1.5 flex-wrap">
-                            <span class="bg-amberAccent-500 text-brand-900 text-xs font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">內部專用文件閱讀庫 v1.7</span>
+                            <span class="bg-amberAccent-500 text-brand-900 text-xs font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">內部專用文件閱讀庫 v1.8</span>
                             <span class="bg-white/10 text-white text-xs px-2.5 py-0.5 rounded-full flex items-center gap-1">
                                 <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2.166 4.9L10 1.154l7.834 3.746A1 1 0 0118.5 5.79v4.23a10.022 10.022 0 01-4.82 8.528l-3.23 1.895a1 1 0 01-1.02 0l-3.23-1.895a10.022 10.022 0 01-4.82-8.528V5.79a1 1 0 01.554-.89zM10 3.167L4.5 5.8v3.42a8.018 8.018 0 003.856 6.822L10 17.15l1.644-.958A8.018 8.018 0 0015.5 9.22V5.8L10 3.167z" clip-rule="evenodd"></path></svg>
                                 密碼保護
                             </span>
+                            <span class="text-[10px] text-emerald-200/80 font-mono">2026-07-20 22:26 更新</span>
                         </div>
                         <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">
                             馬博士筋骨整復 × 湧健康 合作檔案
@@ -211,7 +223,7 @@
             <div class="max-w-6xl mx-auto px-4 text-center text-xs space-y-2">
                 <p>馬博士筋骨整復 × 湧健康 高雄合作專案小組 製作公佈</p>
                 <p>本文件內容僅供內部決策對焦與學術交流參考。對外宣傳素材必須另送正式合規程序審查。</p>
-                <p class="text-gray-600">已啟用防搜尋機制 (No-Index) | 2026 高雄交流會談 | 網頁版本 v1.7</p>
+                <p class="text-gray-600">已啟用防搜尋機制 (No-Index) | 2026 高雄交流會談 | 網頁版本 v1.8 (2026/07/20 22:26)</p>
             </div>
         </footer>
 
@@ -429,11 +441,12 @@
                     const page = await pdf.getPage(pageNum);
                     
                     // 建立承載畫布的卡片容器
+                    // 【解決擠壓核心】：使用 block + mx-auto，完全避開 flex 的高度干擾，100% 還原 PDF 原生比例
                     const pageCard = document.createElement("div");
-                    pageCard.className = "w-full max-w-4xl bg-white shadow-md border border-gray-200/60 rounded-xl p-1 sm:p-2 mb-2 flex justify-center overflow-hidden";
+                    pageCard.className = "w-full max-w-4xl bg-white shadow-md border border-gray-200/60 rounded-xl p-1 sm:p-2 mb-4 block mx-auto overflow-hidden";
                     
                     const canvas = document.createElement("canvas");
-                    canvas.className = "w-full h-auto rounded-lg";
+                    canvas.className = "w-full h-auto block mx-auto rounded-lg";
                     pageCard.appendChild(canvas);
                     container.appendChild(pageCard);
 
@@ -444,7 +457,7 @@
                     canvas.width = viewport.width;
                     canvas.height = viewport.height;
 
-                    // 強制 CSS 響應式佈局
+                    // 強制 CSS 響應式佈局：height 設為 auto !important
                     canvas.style.width = "100%";
                     canvas.style.height = "auto";
 
