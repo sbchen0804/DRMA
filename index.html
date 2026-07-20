@@ -329,6 +329,9 @@
                 // 自動 focus 輸入框
                 const pinField = document.getElementById("pin-input");
                 if (pinField) pinField.focus();
+
+                // 綁定滾動容器監聽 (手機隨選 Go Top 機制)
+                bindScrollListener();
             } catch (e) {
                 console.error("DOMContentLoaded handler failed:", e);
             }
@@ -489,53 +492,22 @@
             }
         }
 
-        // 監聽網頁滾動，控制 Go Top 按鈕的出現與消失
-        window.onscroll = function() {
+        // 監聽 PDF 滾動，控制 Go Top 按鈕隨同視窗移動之浮現
+        function bindScrollListener() {
             try {
+                const scrollContainer = document.getElementById("pdf-render-scroll-container");
                 const goTopBtn = document.getElementById("go-top-btn");
-                if (goTopBtn) {
-                    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-                        goTopBtn.classList.remove("opacity-0", "pointer-events-none", "translate-y-4");
-                        goTopBtn.classList.add("opacity-100", "translate-y-0");
-                    } else {
-                        goTopBtn.classList.add("opacity-0", "pointer-events-none", "translate-y-4");
-                        goTopBtn.classList.remove("opacity-100", "translate-y-0");
-                    }
+                if (scrollContainer && goTopBtn) {
+                    scrollContainer.addEventListener("scroll", () => {
+                        // 只要在 PDF 容器內向下滾動超過 200px，隨身浮動箭頭便會立刻出現
+                        if (scrollContainer.scrollTop > 200) {
+                            goTopBtn.classList.remove("opacity-0", "pointer-events-none", "translate-y-4");
+                            goTopBtn.classList.add("opacity-100", "translate-y-0");
+                        } else {
+                            goTopBtn.classList.add("opacity-0", "pointer-events-none", "translate-y-4");
+                            goTopBtn.classList.remove("opacity-100", "translate-y-0");
+                        }
+                    });
                 }
             } catch (e) {
-                console.error("goTop scroll listener failed:", e);
-            }
-        };
-
-        // 平滑回到頂部
-        function scrollToTop() {
-            try {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } catch (e) {
-                window.scrollTo(0, 0); // 備用方案
-            }
-        }
-
-        // 訊息吐司通知
-        function showToast(text) {
-            try {
-                const toast = document.getElementById("toast");
-                const toastText = document.getElementById("toast-text");
-                
-                if (toast && toastText) {
-                    toastText.textContent = text;
-                    toast.classList.remove("translate-y-20", "opacity-0");
-                    toast.classList.add("translate-y-0", "opacity-100");
-                    
-                    setTimeout(() => {
-                        toast.classList.remove("translate-y-0", "opacity-100");
-                        toast.classList.add("translate-y-20", "opacity-0");
-                    }, 2500);
-                }
-            } catch (e) {
-                console.warn("showToast failed:", e);
-            }
-        }
-    </script>
-</body>
-</html>
+                console.error
