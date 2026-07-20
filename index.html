@@ -8,7 +8,7 @@
     <meta name="robots" content="noindex, nofollow">
     <meta name="googlebot" content="noindex, nofollow">
     
-    <title>馬博士筋骨整復 × 湧健康 | 內部文件閱讀器</title>
+    <title>馬博士筋骨整復 × 湧健康 | 內部文件閱讀器 (v1.4)</title>
     
     <!-- 預先宣告全域 Tailwind 設定，確保樣式流暢 -->
     <script>
@@ -39,7 +39,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Google Fonts - Noto Sans TC 提供頂級的文字渲染 -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght=300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
     <style>
         body {
@@ -98,7 +98,7 @@
                 </div>
             </div>
 
-            <h1 class="text-2xl font-bold text-gray-900 mb-2">內部文件閱讀專區</h1>
+            <h1 class="text-2xl font-bold text-gray-900 mb-2">內部文件閱讀專區 <span class="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full font-mono">v1.4</span></h1>
             <p class="text-sm text-gray-600 mb-6">
                 本網頁為「馬博士筋骨整復 × 湧健康」高雄合作專案之內部交流與資料庫。請輸入授權閱讀密碼。
             </p>
@@ -139,7 +139,7 @@
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
                         <div class="flex items-center gap-3 mb-1.5 flex-wrap">
-                            <span class="bg-amberAccent-500 text-brand-900 text-xs font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">內部專用文件閱讀庫</span>
+                            <span class="bg-amberAccent-500 text-brand-900 text-xs font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">內部專用文件閱讀庫 v1.4</span>
                             <span class="bg-white/10 text-white text-xs px-2.5 py-0.5 rounded-full flex items-center gap-1">
                                 <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2.166 4.9L10 1.154l7.834 3.746A1 1 0 0118.5 5.79v4.23a10.022 10.022 0 01-4.82 8.528l-3.23 1.895a1 1 0 01-1.02 0l-3.23-1.895a10.022 10.022 0 01-4.82-8.528V5.79a1 1 0 01.554-.89zM10 3.167L4.5 5.8v3.42a8.018 8.018 0 003.856 6.822L10 17.15l1.644-.958A8.018 8.018 0 0015.5 9.22V5.8L10 3.167z" clip-rule="evenodd"></path></svg>
                                 密碼保護
@@ -162,14 +162,14 @@
             <div class="bg-brand-800 border-t border-emerald-700/50">
                 <div class="max-w-6xl mx-auto px-4">
                     <nav class="flex flex-wrap -mb-px justify-start gap-1 py-1.5" aria-label="Tabs">
-                        <button onclick="switchTab('tab-handbook')" id="btn-tab-handbook" class="px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 bg-white text-brand-900 shadow-sm flex items-center gap-2">
+                        <button onclick="switchTab(1)" id="btn-tab-1" class="px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 bg-white text-brand-900 shadow-sm flex items-center gap-2">
                             <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
                             1. 高雄合作會談手冊
                         </button>
-                        <button onclick="switchTab('tab-cooperation')" id="btn-tab-cooperation" class="px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 text-emerald-100 hover:text-white hover:bg-brand-900/40 flex items-center gap-2">
+                        <button onclick="switchTab(2)" id="btn-tab-2" class="px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 text-emerald-100 hover:text-white hover:bg-brand-900/40 flex items-center gap-2">
                             2. 雙方合作與商品說明文件
                         </button>
-                        <button onclick="switchTab('tab-dr-tsai')" id="btn-tab-dr-tsai" class="px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 text-emerald-100 hover:text-white hover:bg-brand-900/40 flex items-center gap-2">
+                        <button onclick="switchTab(3)" id="btn-tab-3" class="px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 text-emerald-100 hover:text-white hover:bg-brand-900/40 flex items-center gap-2">
                             3. 蔡中醫博士健康觀點
                         </button>
                     </nav>
@@ -180,166 +180,16 @@
         <!-- 主文件閱讀工作區 -->
         <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-6 sm:px-6">
             
-            <!-- A. 第一份 PDF：高雄合作會談手冊 -->
-            <div id="tab-handbook" class="space-y-4 animate-fadeIn">
-                <!-- 線上測試/預覽輔助提示區 (高質感柔和引導卡) -->
-                <div class="bg-amber-50 rounded-xl border border-amber-200 p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                    <div class="flex gap-2.5">
-                        <span class="p-1.5 bg-amberAccent-500 rounded-lg text-white flex-shrink-0 mt-0.5 md:mt-0">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        </span>
-                        <div>
-                            <h4 class="text-sm font-bold text-gray-900">💡 當前預覽環境提示（請閱讀）</h4>
-                            <p class="text-xs text-gray-600 leading-relaxed">
-                                若下方因平台限制暫時呈現空白，您可以點右方按鈕直接選擇您本機的 **`03_DRMA_meeting_info.pdf`**，網頁即可在下方完美顯示。部署到伺服器或自己電腦後便會全自動加載，無須此手動步驟。
-                            </p>
-                        </div>
+            <!-- PDF 線上嵌入閱讀窗 -->
+            <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden h-[76vh] relative">
+                <iframe id="pdf-viewer-iframe" src="" class="w-full h-full border-0" type="application/pdf">
+                    <div class="absolute inset-0 flex flex-col justify-center items-center p-6 text-center">
+                        <p class="text-gray-600 mb-4 font-medium">您的瀏覽器或裝置不支援直接線上預覽 PDF 檔案。</p>
+                        <a id="fallback-pdf-link" href="#" target="_blank" class="px-6 py-3 bg-brand-800 text-white font-bold rounded-lg shadow-md hover:bg-brand-900 transition-all">
+                            點此直接打開 PDF 檔案
+                        </a>
                     </div>
-                    <div class="flex-shrink-0">
-                        <label class="cursor-pointer px-4 py-2 bg-amberAccent-600 hover:bg-amberAccent-700 text-white font-bold rounded-lg text-xs shadow-md transition-all inline-flex items-center gap-1">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                            選擇本機 PDF 檔案載入預覽
-                            <input type="file" accept="application/pdf" class="hidden" onchange="loadLocalPDF(event, 'iframe-handbook')">
-                        </label>
-                    </div>
-                </div>
-
-                <!-- 行動裝置/下載快捷控制欄 -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div class="flex items-center gap-2.5">
-                        <span class="p-2 rounded-lg bg-red-50 text-red-700">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                        </span>
-                        <div>
-                            <h2 class="text-sm font-bold text-gray-900">03_DRMA_meeting_info.pdf</h2>
-                            <p class="text-xs text-gray-500">若在手機上無法完整捲動，請點擊右方按鈕進行全螢幕檢視</p>
-                        </div>
-                    </div>
-                    <a id="btn-open-handbook" href="03_DRMA_meeting_info.pdf" target="_blank" class="px-4 py-2 bg-brand-800 hover:bg-brand-900 text-white font-bold rounded-lg text-xs shadow-md transition-all duration-300 text-center flex items-center justify-center gap-1.5">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                        新分頁開啟 / 下載原始 PDF
-                    </a>
-                </div>
-
-                <!-- PDF 線上嵌入閱讀窗 -->
-                <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden h-[76vh] relative">
-                    <iframe id="iframe-handbook" src="03_DRMA_meeting_info.pdf" class="w-full h-full border-0" type="application/pdf">
-                        <div class="absolute inset-0 flex flex-col justify-center items-center p-6 text-center">
-                            <p class="text-gray-600 mb-4 font-medium">您的瀏覽器或裝置不支援直接線上預覽 PDF 檔案。</p>
-                            <a href="03_DRMA_meeting_info.pdf" target="_blank" class="px-6 py-3 bg-brand-800 text-white font-bold rounded-lg shadow-md hover:bg-brand-900 transition-all">
-                                點此直接打開 PDF 檔案
-                            </a>
-                        </div>
-                    </iframe>
-                </div>
-            </div>
-
-            <!-- B. 第二份 PDF：雙方合作與商品說明文件 -->
-            <div id="tab-cooperation" class="space-y-4 hidden animate-fadeIn">
-                <!-- 線上測試/預覽輔助提示區 (高質感柔和引導卡) -->
-                <div class="bg-amber-50 rounded-xl border border-amber-200 p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                    <div class="flex gap-2.5">
-                        <span class="p-1.5 bg-amberAccent-500 rounded-lg text-white flex-shrink-0 mt-0.5 md:mt-0">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        </span>
-                        <div>
-                            <h4 class="text-sm font-bold text-gray-900">💡 當前預覽環境提示（請閱讀）</h4>
-                            <p class="text-xs text-gray-600 leading-relaxed">
-                                若下方因平台限制暫時呈現空白，您可以點右方按鈕直接選擇您本機的 **`01_DRMA_project.pdf`**，網頁即可在下方呈現。部署到伺服器後即自動讀取。
-                            </p>
-                        </div>
-                    </div>
-                    <div class="flex-shrink-0">
-                        <label class="cursor-pointer px-4 py-2 bg-amberAccent-600 hover:bg-amberAccent-700 text-white font-bold rounded-lg text-xs shadow-md transition-all inline-flex items-center gap-1">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                            選擇本機 PDF 檔案載入預覽
-                            <input type="file" accept="application/pdf" class="hidden" onchange="loadLocalPDF(event, 'iframe-cooperation')">
-                        </label>
-                    </div>
-                </div>
-
-                <!-- 行動裝置/下載快捷控制欄 -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div class="flex items-center gap-2.5">
-                        <span class="p-2 rounded-lg bg-red-50 text-red-700">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                        </span>
-                        <div>
-                            <h2 class="text-sm font-bold text-gray-900">01_DRMA_project.pdf</h2>
-                            <p class="text-xs text-gray-500">若在手機上無法完整捲動，請點擊右方按鈕進行全螢幕檢視</p>
-                        </div>
-                    </div>
-                    <a id="btn-open-cooperation" href="01_DRMA_project.pdf" target="_blank" class="px-4 py-2 bg-brand-800 hover:bg-brand-900 text-white font-bold rounded-lg text-xs shadow-md transition-all duration-300 text-center flex items-center justify-center gap-1.5">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                        新分頁開啟 / 下載原始 PDF
-                    </a>
-                </div>
-
-                <!-- PDF 線上嵌入閱讀窗 -->
-                <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden h-[76vh] relative">
-                    <iframe id="iframe-cooperation" src="01_DRMA_project.pdf" class="w-full h-full border-0" type="application/pdf">
-                        <div class="absolute inset-0 flex flex-col justify-center items-center p-6 text-center">
-                            <p class="text-gray-600 mb-4 font-medium">您的瀏覽器或裝置不支援直接線上預覽 PDF 檔案。</p>
-                            <a href="01_DRMA_project.pdf" target="_blank" class="px-6 py-3 bg-brand-800 text-white font-bold rounded-lg shadow-md hover:bg-brand-900 transition-all">
-                                點此直接打開 PDF 檔案
-                            </a>
-                        </div>
-                    </iframe>
-                </div>
-            </div>
-
-            <!-- C. 第三份 PDF：蔡中醫博士健康觀點 -->
-            <div id="tab-dr-tsai" class="space-y-4 hidden animate-fadeIn">
-                <!-- 線上測試/預覽輔助提示區 (高質感柔和引導卡) -->
-                <div class="bg-amber-50 rounded-xl border border-amber-200 p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                    <div class="flex gap-2.5">
-                        <span class="p-1.5 bg-amberAccent-500 rounded-lg text-white flex-shrink-0 mt-0.5 md:mt-0">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        </span>
-                        <div>
-                            <h4 class="text-sm font-bold text-gray-900">💡 當前預覽環境提示（請閱讀）</h4>
-                            <p class="text-xs text-gray-600 leading-relaxed">
-                                若下方因平台限制暫時呈現空白，您可以點右方按鈕直接選擇您本機的 **`02_DRTSAI_health_perspective.pdf`**，網頁即可在下方呈現。部署到伺服器後即自動讀取。
-                            </p>
-                        </div>
-                    </div>
-                    <div class="flex-shrink-0">
-                        <label class="cursor-pointer px-4 py-2 bg-amberAccent-600 hover:bg-amberAccent-700 text-white font-bold rounded-lg text-xs shadow-md transition-all inline-flex items-center gap-1">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                            選擇本機 PDF 檔案載入預覽
-                            <input type="file" accept="application/pdf" class="hidden" onchange="loadLocalPDF(event, 'iframe-dr-tsai')">
-                        </label>
-                    </div>
-                </div>
-
-                <!-- 行動裝置/下載快捷控制欄 -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div class="flex items-center gap-2.5">
-                        <span class="p-2 rounded-lg bg-red-50 text-red-700">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                        </span>
-                        <div>
-                            <h2 class="text-sm font-bold text-gray-900">02_DRTSAI_health_perspective.pdf</h2>
-                            <p class="text-xs text-gray-500">若在手機上無法完整捲動，請點擊右方按鈕進行全螢幕檢視</p>
-                        </div>
-                    </div>
-                    <a id="btn-open-dr-tsai" href="02_DRTSAI_health_perspective.pdf" target="_blank" class="px-4 py-2 bg-brand-800 hover:bg-brand-900 text-white font-bold rounded-lg text-xs shadow-md transition-all duration-300 text-center flex items-center justify-center gap-1.5">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                        新分頁開啟 / 下載原始 PDF
-                    </a>
-                </div>
-
-                <!-- PDF 線上嵌入閱讀窗 -->
-                <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden h-[76vh] relative">
-                    <iframe id="iframe-dr-tsai" src="02_DRTSAI_health_perspective.pdf" class="w-full h-full border-0" type="application/pdf">
-                        <div class="absolute inset-0 flex flex-col justify-center items-center p-6 text-center">
-                            <p class="text-gray-600 mb-4 font-medium">您的瀏覽器 or 裝置不支援線上直接預覽 PDF 檔案。</p>
-                            <a href="02_DRTSAI_health_perspective.pdf" target="_blank" class="px-6 py-3 bg-brand-800 text-white font-bold rounded-lg shadow-md hover:bg-brand-900 transition-all">
-                                點此直接打開 PDF 檔案
-                            </a>
-                        </div>
-                    </iframe>
-                </div>
+                </iframe>
             </div>
 
         </main>
@@ -349,7 +199,7 @@
             <div class="max-w-6xl mx-auto px-4 text-center text-xs space-y-2">
                 <p>馬博士筋骨整復 × 湧健康 高雄合作專案小組 製作公佈</p>
                 <p>本文件內容僅供內部決策對焦與學術交流參考。對外宣傳素材必須另送正式合規程序審查。</p>
-                <p class="text-gray-600">已啟用防搜尋機制 (No-Index) | 2026 高雄交流會談</p>
+                <p class="text-gray-600">已啟用防搜尋機制 (No-Index) | 2026 高雄交流會談 | 網頁版本 v1.4</p>
             </div>
         </footer>
 
@@ -370,6 +220,36 @@
     <!-- 5. 互動控制與密碼保護邏輯 -->
     <script>
         const SECRET_PIN = "0720";
+        let isPageUnlocked = false;
+
+        // 安全地使用本地/會話儲存，完全預防沙盒阻斷拋錯
+        function safeSessionGet(key) {
+            try {
+                return sessionStorage.getItem(key);
+            } catch (e) {
+                return null; // 安全降級，不中斷 JS 運行
+            }
+        }
+
+        function safeSessionSet(key, value) {
+            try {
+                sessionStorage.setItem(key, value);
+            } catch (e) {
+                // 安全降級，不中斷 JS
+            }
+        }
+
+        // 偵測執行環境，若是預覽沙盒則自動對接您 GitHub 的實體網址，否則使用同目錄相對路徑
+        function getPdfUrl(filename) {
+            const hostname = window.location.hostname;
+            // 如果在 GitHub Pages 或是本地執行，使用相對路徑
+            if (hostname.includes('github.io') || hostname === '127.0.0.1' || hostname === 'localhost' || !hostname) {
+                return filename;
+            } else {
+                // 如果是在平台內嵌的沙盒預覽，則強制向您的 GitHub 取得真實檔案！
+                return 'https://sbchen0804.github.io/DRMA/' + filename;
+            }
+        }
 
         // 登入密碼驗證
         function verifyPassword() {
@@ -379,18 +259,21 @@
             const mainContent = document.getElementById("main-content");
 
             if (inputVal === SECRET_PIN) {
-                // 成功登入
+                // 成功解鎖
+                isPageUnlocked = true;
                 errorElement.classList.add("hidden");
                 overlay.classList.add("translate-y-full", "opacity-0");
                 
                 setTimeout(() => {
                     overlay.classList.add("hidden");
                     mainContent.classList.remove("hidden");
+                    
+                    // 預設加載第一個 PDF
+                    switchTab(1);
                     showToast("🔓 密碼正確，已為您載入 PDF 文件櫃");
                 }, 400);
 
-                // 儲存狀態，避免短時間內重新整理重複輸入
-                sessionStorage.setItem("isUnlocked", "true");
+                safeSessionSet("isUnlocked", "true");
             } else {
                 // 密碼錯誤
                 errorElement.classList.remove("hidden");
@@ -404,9 +287,11 @@
 
         // 自動檢測 SessionStorage 狀態
         window.addEventListener("DOMContentLoaded", () => {
-            if (sessionStorage.getItem("isUnlocked") === "true") {
+            if (safeSessionGet("isUnlocked") === "true") {
+                isPageUnlocked = true;
                 document.getElementById("password-overlay").classList.add("hidden");
                 document.getElementById("main-content").classList.remove("hidden");
+                switchTab(1);
             }
             // 自動 focus 輸入框
             document.getElementById("pin-input").focus();
@@ -414,58 +299,73 @@
 
         // 安全上鎖
         function lockPage() {
-            sessionStorage.removeItem("isUnlocked");
+            isPageUnlocked = false;
+            try {
+                sessionStorage.removeItem("isUnlocked");
+            } catch(e) {}
             document.getElementById("pin-input").value = "";
             document.getElementById("password-overlay").classList.remove("hidden", "translate-y-full", "opacity-0");
             document.getElementById("main-content").classList.add("hidden");
             showToast("🔒 網頁已安全上鎖");
         }
 
-        // 分頁切換器 (控制 iframe 的顯示與隱藏)
-        function switchTab(tabId) {
-            const tabs = ['tab-handbook', 'tab-cooperation', 'tab-dr-tsai'];
+        // 核心更新：100% 不會拋錯且超安定之「單一 iframe 網址替換」切換邏輯
+        function switchTab(tabNum) {
+            if (!isPageUnlocked) return;
+
+            let pdfFilename = "";
             
-            tabs.forEach(t => {
-                const element = document.getElementById(t);
-                const button = document.getElementById(`btn-${t}`);
-                
-                if (t === tabId) {
-                    element.classList.remove("hidden");
-                    // 點亮按鈕樣式
-                    button.className = "px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 bg-white text-brand-900 shadow-sm flex items-center gap-2";
-                } else {
-                    element.classList.add("hidden");
-                    // 恢復未選中樣式
-                    button.className = "px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 text-emerald-100 hover:text-white hover:bg-brand-900/40 flex items-center gap-2";
-                }
-            });
-            
-            // 切換分頁後，自動滑動回頁頂
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // 核心修正：解決沙盒環境無法讀取本地 PDF 的極致好用機制！
-        function loadLocalPDF(event, iframeId) {
-            const file = event.target.files[0];
-            if (file) {
-                // 建立安全的 Blob URL 指向使用者本機的真實 PDF 檔案
-                const fileURL = URL.createObjectURL(file);
-                
-                // 動態塞入 iframe 做即時渲染
-                const iframe = document.getElementById(iframeId);
-                if (iframe) {
-                    iframe.src = fileURL;
-                }
-
-                // 同步更新「新分頁開啟 / 下載原始 PDF」按鈕的網址，確保連結不再顯示 Blank
-                const btnId = iframeId.replace('iframe-', 'btn-open-');
-                const btn = document.getElementById(btnId);
-                if (btn) {
-                    btn.href = fileURL;
-                }
-
-                showToast(`✅ 成功載入本機：${file.name}`);
+            // 對應您上傳至 GitHub 的三個檔案
+            if (tabNum === 1) {
+                pdfFilename = "03_DRMA_meeting_info.pdf";
+            } else if (tabNum === 2) {
+                pdfFilename = "01_DRMA_project.pdf";
+            } else if (tabNum === 3) {
+                pdfFilename = "02_DRTSAI_health_perspective.pdf";
             }
+
+            const finalPdfUrl = getPdfUrl(pdfFilename);
+
+            // 直接修改單一 iframe 的 src 載入新檔案
+            const iframe = document.getElementById("pdf-viewer-iframe");
+            const fallbackLink = document.getElementById("fallback-pdf-link");
+            
+            if (iframe) {
+                iframe.src = finalPdfUrl;
+            }
+            if (fallbackLink) {
+                fallbackLink.href = finalPdfUrl;
+            }
+
+            // 更新選單按鈕的 active 視覺樣式
+            for (let i = 1; i <= 3; i++) {
+                const btn = document.getElementById(`btn-tab-${i}`);
+                if (!btn) continue;
+
+                if (i === tabNum) {
+                    // 選中狀態：白底深綠字、帶綠色小圓圈
+                    btn.className = "px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 bg-white text-brand-900 shadow-sm flex items-center gap-2";
+                    // 如果沒有圓點則補上
+                    if (!btn.querySelector('span')) {
+                        const dot = document.createElement('span');
+                        dot.className = "w-2 h-2 rounded-full bg-emerald-600";
+                        btn.prepend(dot);
+                    }
+                } else {
+                    // 未選中狀態：半透明白
+                    btn.className = "px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 text-emerald-100 hover:text-white hover:bg-brand-900/40 flex items-center gap-2";
+                    // 移除圓點
+                    const dot = btn.querySelector('span');
+                    if (dot) {
+                        dot.remove();
+                    }
+                }
+            }
+
+            showToast(`📄 已切換至第 ${tabNum} 份文件`);
+            
+            // 切換時自動平滑滾動回頁頂
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // 監聽網頁滾動，控制 Go Top 按鈕的出現與消失
