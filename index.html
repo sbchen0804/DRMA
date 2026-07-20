@@ -8,7 +8,7 @@
     <meta name="robots" content="noindex, nofollow">
     <meta name="googlebot" content="noindex, nofollow">
     
-    <title>馬博士筋骨整復 × 湧健康 | 內部文件閱讀器 (v1.6)</title>
+    <title>馬博士筋骨整復 × 湧健康 | 內部文件閱讀器 (v1.7)</title>
     
     <!-- 預先宣告全域 Tailwind 設定，確保樣式流暢 -->
     <script>
@@ -98,7 +98,7 @@
                 </div>
             </div>
 
-            <h1 class="text-2xl font-bold text-gray-900 mb-2">內部文件閱讀專區 <span class="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full font-mono">v1.6</span></h1>
+            <h1 class="text-2xl font-bold text-gray-900 mb-2">內部文件閱讀專區 <span class="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full font-mono">v1.7</span></h1>
             <p class="text-sm text-gray-600 mb-6">
                 本網頁為「馬博士筋骨整復 × 湧健康」高雄合作專案之內部交流與資料庫。請輸入授權閱讀密碼。
             </p>
@@ -139,7 +139,7 @@
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
                         <div class="flex items-center gap-3 mb-1.5 flex-wrap">
-                            <span class="bg-amberAccent-500 text-brand-900 text-xs font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">內部專用文件閱讀庫 v1.6</span>
+                            <span class="bg-amberAccent-500 text-brand-900 text-xs font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">內部專用文件閱讀庫 v1.7</span>
                             <span class="bg-white/10 text-white text-xs px-2.5 py-0.5 rounded-full flex items-center gap-1">
                                 <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2.166 4.9L10 1.154l7.834 3.746A1 1 0 0118.5 5.79v4.23a10.022 10.022 0 01-4.82 8.528l-3.23 1.895a1 1 0 01-1.02 0l-3.23-1.895a10.022 10.022 0 01-4.82-8.528V5.79a1 1 0 01.554-.89zM10 3.167L4.5 5.8v3.42a8.018 8.018 0 003.856 6.822L10 17.15l1.644-.958A8.018 8.018 0 0015.5 9.22V5.8L10 3.167z" clip-rule="evenodd"></path></svg>
                                 密碼保護
@@ -200,7 +200,7 @@
             <div class="max-w-6xl mx-auto px-4 text-center text-xs space-y-2">
                 <p>馬博士筋骨整復 × 湧健康 高雄合作專案小組 製作公佈</p>
                 <p>本文件內容僅供內部決策對焦與學術交流參考。對外宣傳素材必須另送正式合規程序審查。</p>
-                <p class="text-gray-600">已啟用防搜尋機制 (No-Index) | 2026 高雄交流會談 | 網頁版本 v1.6</p>
+                <p class="text-gray-600">已啟用防搜尋機制 (No-Index) | 2026 高雄交流會談 | 網頁版本 v1.7</p>
             </div>
         </footer>
 
@@ -239,21 +239,36 @@
             }
         }
 
+        // 智慧型手機/行動裝置偵測
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || (window.innerWidth < 768);
+        }
+
         // 偵測執行環境，若是預覽沙盒則自動對接您 GitHub 的實體網址，否則使用同目錄相對路徑
         function getPdfUrl(filename) {
+            let baseUrl = "";
             try {
                 const hostname = window.location.hostname || "";
                 // 如果在 GitHub Pages 或是本地執行，使用相對路徑
                 if (hostname.includes('github.io') || hostname === '127.0.0.1' || hostname === 'localhost' || !hostname) {
-                    return filename;
+                    baseUrl = filename;
                 } else {
                     // 如果是在平台內嵌的沙盒預覽，則強制向您的 GitHub 取得真實檔案！
-                    return 'https://sbchen0804.github.io/DRMA/' + filename;
+                    baseUrl = 'https://sbchen0804.github.io/DRMA/' + filename;
                 }
             } catch (e) {
                 // 如果讀取 hostname 失敗（沙盒安全限制），直接使用絕對路徑，保證預覽絕對看得到檔案！
-                return 'https://sbchen0804.github.io/DRMA/' + filename;
+                baseUrl = 'https://sbchen0804.github.io/DRMA/' + filename;
             }
+
+            // 【手機版專屬革命修復】：若為手機端，透過 Google Docs 雲端原生渲染引擎直接將 PDF 渲染為可自由滾動、翻頁的 HTML5 畫布！
+            if (isMobileDevice()) {
+                // 必須將 baseUrl 轉化為指向網路實體連結（GitHub 公開網址），Google Docs 才能在雲端順利解析讀取
+                const absoluteNetworkUrl = baseUrl.startsWith('http') ? baseUrl : 'https://sbchen0804.github.io/DRMA/' + baseUrl;
+                return 'https://docs.google.com/gview?url=' + encodeURIComponent(absoluteNetworkUrl) + '&embedded=true';
+            }
+
+            return baseUrl;
         }
 
         // 登入密碼驗證
@@ -378,7 +393,8 @@
                     iframe.src = finalPdfUrl;
                 }
                 if (fallbackLink) {
-                    fallbackLink.href = finalPdfUrl;
+                    // 若是手機端，實體下載連結保持原創絕對路徑
+                    fallbackLink.href = finalPdfUrl.includes('gview') ? decodeURIComponent(finalPdfUrl.split('url=')[1].split('&')[0]) : finalPdfUrl;
                 }
             } catch (err) {
                 console.error("Iframe src 載入更新失敗:", err);
