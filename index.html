@@ -41,6 +41,13 @@
     <!-- Google Fonts - Noto Sans TC 提供頂級的文字渲染 -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght=300;400;500;700;900&display=swap" rel="stylesheet">
     
+    <!-- 載入 Mozilla 官方權威 PDF.js 渲染引擎 CDN，解決所有手機無法翻頁滑動的問題 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script>
+        // 設定 PDF.js 的背景 Worker 解析器
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+    </script>
+
     <style>
         body {
             font-family: 'Noto Sans TC', sans-serif;
@@ -181,16 +188,20 @@
         <!-- 主文件閱讀工作區 -->
         <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-6 sm:px-6">
             
-            <!-- PDF 線上嵌入閱讀窗 -->
-            <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden h-[76vh] relative">
-                <iframe id="pdf-viewer-iframe" src="" class="w-full h-full border-0" type="application/pdf">
-                    <div class="absolute inset-0 flex flex-col justify-center items-center p-6 text-center">
-                        <p class="text-gray-600 mb-4 font-medium">您的瀏覽器或裝置不支援直接線上預覽 PDF 檔案。</p>
-                        <a id="fallback-pdf-link" href="#" target="_blank" class="px-6 py-3 bg-brand-800 text-white font-bold rounded-lg shadow-md hover:bg-brand-900 transition-all">
-                            點此直接打開 PDF 檔案
-                        </a>
+            <!-- PDF.js 核心渲染容器卡片 (具有極高的高清排版、 rounded 邊框與流暢滾動) -->
+            <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden h-[76vh] flex flex-col relative">
+                
+                <!-- PDF.js 平滑滾動渲染區：在此處 PDF 將會像一般網頁一樣完美支援手指滑動、雙指縮放 -->
+                <div id="pdf-render-scroll-container" class="flex-1 overflow-y-auto bg-gray-100 flex flex-col items-center p-2 sm:p-4 gap-4 scroll-smooth">
+                    <!-- 由 JavaScript 動態繪製與堆疊多個 PDF 畫布 (Canvas) -->
+                    <div class="flex flex-col items-center justify-center py-20 text-brand-800 font-medium gap-3 animate-pulse">
+                        <svg class="animate-spin h-10 w-10 text-brand-800" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span>正在為您安全加載高解析度 PDF 檔案...</span>
                     </div>
-                </iframe>
+                </div>
             </div>
 
         </main>
@@ -239,11 +250,6 @@
             }
         }
 
-        // 智慧型手機/行動裝置偵測
-        function isMobileDevice() {
-            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || (window.innerWidth < 768);
-        }
-
         // 偵測執行環境，若是預覽沙盒則自動對接您 GitHub 的實體網址，否則使用同目錄相對路徑
         function getPdfUrl(filename) {
             let baseUrl = "";
@@ -260,14 +266,6 @@
                 // 如果讀取 hostname 失敗（沙盒安全限制），直接使用絕對路徑，保證預覽絕對看得到檔案！
                 baseUrl = 'https://sbchen0804.github.io/DRMA/' + filename;
             }
-
-            // 【手機版專屬革命修復】：若為手機端，透過 Google Docs 雲端原生渲染引擎直接將 PDF 渲染為可自由滾動、翻頁的 HTML5 畫布！
-            if (isMobileDevice()) {
-                // 必須將 baseUrl 轉化為指向網路實體連結（GitHub 公開網址），Google Docs 才能在雲端順利解析讀取
-                const absoluteNetworkUrl = baseUrl.startsWith('http') ? baseUrl : 'https://sbchen0804.github.io/DRMA/' + baseUrl;
-                return 'https://docs.google.com/gview?url=' + encodeURIComponent(absoluteNetworkUrl) + '&embedded=true';
-            }
-
             return baseUrl;
         }
 
@@ -372,7 +370,7 @@
                 console.warn("按鈕視覺狀態更新失敗:", err);
             }
 
-            // 【重要修正步驟 2】：更改 iframe 的 src 載入新檔案（使用 try-catch 包覆，預防跨域限制引起的 JS 卡死）
+            // 【重要修正步驟 2】：使用 PDF.js 核心在網頁內直接渲染多頁 Canvas，徹底解決手機無法翻頁滾動的宿命！
             try {
                 let pdfFilename = "";
                 
@@ -386,26 +384,93 @@
                 }
 
                 const finalPdfUrl = getPdfUrl(pdfFilename);
-                const iframe = document.getElementById("pdf-viewer-iframe");
-                const fallbackLink = document.getElementById("fallback-pdf-link");
-                
-                if (iframe) {
-                    iframe.src = finalPdfUrl;
-                }
-                if (fallbackLink) {
-                    // 若是手機端，實體下載連結保持原創絕對路徑
-                    fallbackLink.href = finalPdfUrl.includes('gview') ? decodeURIComponent(finalPdfUrl.split('url=')[1].split('&')[0]) : finalPdfUrl;
-                }
+                renderPdfWithPdfJs(finalPdfUrl);
+
             } catch (err) {
                 console.error("Iframe src 載入更新失敗:", err);
             }
 
-            // 【重要修正步驟 3】：顯示吐司提示並滾動頁面
+            // 【重要修正步驟 3】：顯示吐司提示並將滾動條移回 PDF 容器最上方
             try {
                 showToast(`📄 已切換至第 ${tabNum} 份文件`);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                const scrollContainer = document.getElementById("pdf-render-scroll-container");
+                if (scrollContainer) {
+                    scrollContainer.scrollTop = 0;
+                }
             } catch (err) {
                 console.warn("Toast 顯示失敗:", err);
+            }
+        }
+
+        // 核心渲染函式：使用 HTML5 Canvas 技術，直接高畫質渲染出 PDF 全部頁面，讓任何手機直接絲滑滾動
+        async function renderPdfWithPdfJs(pdfUrl) {
+            const container = document.getElementById("pdf-render-scroll-container");
+            if (!container) return;
+
+            // 1. 顯示精美載入動畫
+            container.innerHTML = `
+                <div class="flex flex-col items-center justify-center py-24 text-brand-800 font-medium gap-3 animate-pulse">
+                    <svg class="animate-spin h-10 w-10 text-brand-800" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>正在為您以高畫質安全渲染 PDF 文件...</span>
+                </div>
+            `;
+
+            try {
+                // 2. 獲取文件
+                const loadingTask = pdfjsLib.getDocument(pdfUrl);
+                const pdf = await loadingTask.promise;
+                container.innerHTML = ""; // 移除載入動畫
+
+                // 3. 循序載入 PDF 每一頁並繪製為 Canvas (保證載入流暢不卡頓)
+                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    const page = await pdf.getPage(pageNum);
+                    
+                    // 建立承載畫布的卡片容器
+                    const pageCard = document.createElement("div");
+                    pageCard.className = "w-full max-w-4xl bg-white shadow-md border border-gray-200/60 rounded-xl p-1 sm:p-2 mb-2 flex justify-center overflow-hidden";
+                    
+                    const canvas = document.createElement("canvas");
+                    canvas.className = "w-full h-auto rounded-lg";
+                    pageCard.appendChild(canvas);
+                    container.appendChild(pageCard);
+
+                    const ctx = canvas.getContext("2d");
+                    
+                    // 以 1.5 倍高畫質渲染，使手機放大看依然字體極其清晰銳利
+                    const viewport = page.getViewport({ scale: 1.5 });
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+
+                    // 強制 CSS 響應式佈局
+                    canvas.style.width = "100%";
+                    canvas.style.height = "auto";
+
+                    const renderContext = {
+                        canvasContext: ctx,
+                        viewport: viewport
+                    };
+                    
+                    // 執行非同步渲染
+                    await page.render(renderContext).promise;
+                }
+            } catch (err) {
+                console.error("PDF.js 渲染失敗:", err);
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-20 px-6 text-center">
+                        <div class="w-16 h-16 bg-red-50 text-red-600 rounded-full flex items-center justify-center mb-4">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        </div>
+                        <p class="text-gray-900 font-bold text-lg mb-1">無法在線上直接渲染此文件</p>
+                        <p class="text-sm text-gray-500 mb-6">這可能是因為當前環境的網路封鎖，您可以點擊下方按鈕在新視窗中完美閱讀 PDF 檔案。</p>
+                        <a href="${pdfUrl}" target="_blank" class="px-6 py-2.5 bg-brand-800 text-white text-sm font-bold rounded-lg shadow hover:bg-brand-900 transition-all flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            在新分頁開啟原始 PDF
+                        </a>
+                    </div>
+                `;
             }
         }
 
