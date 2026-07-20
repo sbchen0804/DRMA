@@ -8,7 +8,7 @@
     <meta name="robots" content="noindex, nofollow">
     <meta name="googlebot" content="noindex, nofollow">
     
-    <title>馬博士筋骨整復 × 湧健康 | 內部文件閱讀器 (v1.4)</title>
+    <title>馬博士筋骨整復 × 湧健康 | 內部文件閱讀器 (v1.6)</title>
     
     <!-- 預先宣告全域 Tailwind 設定，確保樣式流暢 -->
     <script>
@@ -39,7 +39,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Google Fonts - Noto Sans TC 提供頂級的文字渲染 -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght=300;400;500;700;900&display=swap" rel="stylesheet">
     
     <style>
         body {
@@ -98,7 +98,7 @@
                 </div>
             </div>
 
-            <h1 class="text-2xl font-bold text-gray-900 mb-2">內部文件閱讀專區 <span class="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full font-mono">v1.4</span></h1>
+            <h1 class="text-2xl font-bold text-gray-900 mb-2">內部文件閱讀專區 <span class="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full font-mono">v1.6</span></h1>
             <p class="text-sm text-gray-600 mb-6">
                 本網頁為「馬博士筋骨整復 × 湧健康」高雄合作專案之內部交流與資料庫。請輸入授權閱讀密碼。
             </p>
@@ -139,7 +139,7 @@
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
                         <div class="flex items-center gap-3 mb-1.5 flex-wrap">
-                            <span class="bg-amberAccent-500 text-brand-900 text-xs font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">內部專用文件閱讀庫 v1.4</span>
+                            <span class="bg-amberAccent-500 text-brand-900 text-xs font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">內部專用文件閱讀庫 v1.6</span>
                             <span class="bg-white/10 text-white text-xs px-2.5 py-0.5 rounded-full flex items-center gap-1">
                                 <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2.166 4.9L10 1.154l7.834 3.746A1 1 0 0118.5 5.79v4.23a10.022 10.022 0 01-4.82 8.528l-3.23 1.895a1 1 0 01-1.02 0l-3.23-1.895a10.022 10.022 0 01-4.82-8.528V5.79a1 1 0 01.554-.89zM10 3.167L4.5 5.8v3.42a8.018 8.018 0 003.856 6.822L10 17.15l1.644-.958A8.018 8.018 0 0015.5 9.22V5.8L10 3.167z" clip-rule="evenodd"></path></svg>
                                 密碼保護
@@ -159,7 +159,8 @@
             </div>
 
             <!-- 主導覽選單 (Tabs Selector) -->
-            <div class="bg-brand-800 border-t border-emerald-700/50">
+            <!-- CRITICAL FIX: 加上 relative z-10，將按鈕層級推到背景遮罩上方，確保 100% 可以正常觸發點擊！ -->
+            <div class="bg-brand-800 border-t border-emerald-700/50 relative z-10">
                 <div class="max-w-6xl mx-auto px-4">
                     <nav class="flex flex-wrap -mb-px justify-start gap-1 py-1.5" aria-label="Tabs">
                         <button onclick="switchTab(1)" id="btn-tab-1" class="px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 bg-white text-brand-900 shadow-sm flex items-center gap-2">
@@ -199,7 +200,7 @@
             <div class="max-w-6xl mx-auto px-4 text-center text-xs space-y-2">
                 <p>馬博士筋骨整復 × 湧健康 高雄合作專案小組 製作公佈</p>
                 <p>本文件內容僅供內部決策對焦與學術交流參考。對外宣傳素材必須另送正式合規程序審查。</p>
-                <p class="text-gray-600">已啟用防搜尋機制 (No-Index) | 2026 高雄交流會談 | 網頁版本 v1.4</p>
+                <p class="text-gray-600">已啟用防搜尋機制 (No-Index) | 2026 高雄交流會談 | 網頁版本 v1.6</p>
             </div>
         </footer>
 
@@ -220,7 +221,6 @@
     <!-- 5. 互動控制與密碼保護邏輯 -->
     <script>
         const SECRET_PIN = "0720";
-        let isPageUnlocked = false;
 
         // 安全地使用本地/會話儲存，完全預防沙盒阻斷拋錯
         function safeSessionGet(key) {
@@ -241,163 +241,204 @@
 
         // 偵測執行環境，若是預覽沙盒則自動對接您 GitHub 的實體網址，否則使用同目錄相對路徑
         function getPdfUrl(filename) {
-            const hostname = window.location.hostname;
-            // 如果在 GitHub Pages 或是本地執行，使用相對路徑
-            if (hostname.includes('github.io') || hostname === '127.0.0.1' || hostname === 'localhost' || !hostname) {
-                return filename;
-            } else {
-                // 如果是在平台內嵌的沙盒預覽，則強制向您的 GitHub 取得真實檔案！
+            try {
+                const hostname = window.location.hostname || "";
+                // 如果在 GitHub Pages 或是本地執行，使用相對路徑
+                if (hostname.includes('github.io') || hostname === '127.0.0.1' || hostname === 'localhost' || !hostname) {
+                    return filename;
+                } else {
+                    // 如果是在平台內嵌的沙盒預覽，則強制向您的 GitHub 取得真實檔案！
+                    return 'https://sbchen0804.github.io/DRMA/' + filename;
+                }
+            } catch (e) {
+                // 如果讀取 hostname 失敗（沙盒安全限制），直接使用絕對路徑，保證預覽絕對看得到檔案！
                 return 'https://sbchen0804.github.io/DRMA/' + filename;
             }
         }
 
         // 登入密碼驗證
         function verifyPassword() {
-            const inputVal = document.getElementById("pin-input").value;
-            const errorElement = document.getElementById("error-message");
-            const overlay = document.getElementById("password-overlay");
-            const mainContent = document.getElementById("main-content");
+            try {
+                const inputVal = document.getElementById("pin-input").value;
+                const errorElement = document.getElementById("error-message");
+                const overlay = document.getElementById("password-overlay");
+                const mainContent = document.getElementById("main-content");
 
-            if (inputVal === SECRET_PIN) {
-                // 成功解鎖
-                isPageUnlocked = true;
-                errorElement.classList.add("hidden");
-                overlay.classList.add("translate-y-full", "opacity-0");
-                
-                setTimeout(() => {
-                    overlay.classList.add("hidden");
-                    mainContent.classList.remove("hidden");
+                if (inputVal === SECRET_PIN) {
+                    // 成功解鎖
+                    errorElement.classList.add("hidden");
+                    overlay.classList.add("translate-y-full", "opacity-0");
                     
-                    // 預設加載第一個 PDF
-                    switchTab(1);
-                    showToast("🔓 密碼正確，已為您載入 PDF 文件櫃");
-                }, 400);
+                    setTimeout(() => {
+                        overlay.classList.add("hidden");
+                        mainContent.classList.remove("hidden");
+                        
+                        // 預設加載第一個 PDF
+                        switchTab(1);
+                        showToast("🔓 密碼正確，已為您載入 PDF 文件櫃");
+                    }, 400);
 
-                safeSessionSet("isUnlocked", "true");
-            } else {
-                // 密碼錯誤
-                errorElement.classList.remove("hidden");
-                const inputContainer = document.getElementById("pin-input");
-                inputContainer.classList.add("border-red-500", "animate-bounce");
-                setTimeout(() => {
-                    inputContainer.classList.remove("border-red-500", "animate-bounce");
-                }, 600);
+                    safeSessionSet("isUnlocked", "true");
+                } else {
+                    // 密碼錯誤
+                    errorElement.classList.remove("hidden");
+                    const inputContainer = document.getElementById("pin-input");
+                    inputContainer.classList.add("border-red-500", "animate-bounce");
+                    setTimeout(() => {
+                        inputContainer.classList.remove("border-red-500", "animate-bounce");
+                    }, 600);
+                }
+            } catch (e) {
+                console.error("verifyPassword failed:", e);
             }
         }
 
         // 自動檢測 SessionStorage 狀態
         window.addEventListener("DOMContentLoaded", () => {
-            if (safeSessionGet("isUnlocked") === "true") {
-                isPageUnlocked = true;
-                document.getElementById("password-overlay").classList.add("hidden");
-                document.getElementById("main-content").classList.remove("hidden");
-                switchTab(1);
+            try {
+                if (safeSessionGet("isUnlocked") === "true") {
+                    document.getElementById("password-overlay").classList.add("hidden");
+                    document.getElementById("main-content").classList.remove("hidden");
+                    switchTab(1);
+                }
+                // 自動 focus 輸入框
+                const pinField = document.getElementById("pin-input");
+                if (pinField) pinField.focus();
+            } catch (e) {
+                console.error("DOMContentLoaded handler failed:", e);
             }
-            // 自動 focus 輸入框
-            document.getElementById("pin-input").focus();
         });
 
         // 安全上鎖
         function lockPage() {
-            isPageUnlocked = false;
             try {
                 sessionStorage.removeItem("isUnlocked");
             } catch(e) {}
-            document.getElementById("pin-input").value = "";
-            document.getElementById("password-overlay").classList.remove("hidden", "translate-y-full", "opacity-0");
-            document.getElementById("main-content").classList.add("hidden");
-            showToast("🔒 網頁已安全上鎖");
+            try {
+                document.getElementById("pin-input").value = "";
+                document.getElementById("password-overlay").classList.remove("hidden", "translate-y-full", "opacity-0");
+                document.getElementById("main-content").classList.add("hidden");
+                showToast("🔒 網頁已安全上鎖");
+            } catch (e) {
+                console.error("lockPage failed:", e);
+            }
         }
 
-        // 核心更新：100% 不會拋錯且超安定之「單一 iframe 網址替換」切換邏輯
+        // 核心更新：最完美的防錯、防阻斷之「100% 變色與切換」邏輯
         function switchTab(tabNum) {
-            if (!isPageUnlocked) return;
+            // 【最重要修正步驟 1】：無論如何，先直接對按鈕進行變色（樣式與綠點更新），保證視覺絕對回饋！
+            try {
+                for (let i = 1; i <= 3; i++) {
+                    const btn = document.getElementById(`btn-tab-${i}`);
+                    if (!btn) continue;
 
-            let pdfFilename = "";
-            
-            // 對應您上傳至 GitHub 的三個檔案
-            if (tabNum === 1) {
-                pdfFilename = "03_DRMA_meeting_info.pdf";
-            } else if (tabNum === 2) {
-                pdfFilename = "01_DRMA_project.pdf";
-            } else if (tabNum === 3) {
-                pdfFilename = "02_DRTSAI_health_perspective.pdf";
-            }
-
-            const finalPdfUrl = getPdfUrl(pdfFilename);
-
-            // 直接修改單一 iframe 的 src 載入新檔案
-            const iframe = document.getElementById("pdf-viewer-iframe");
-            const fallbackLink = document.getElementById("fallback-pdf-link");
-            
-            if (iframe) {
-                iframe.src = finalPdfUrl;
-            }
-            if (fallbackLink) {
-                fallbackLink.href = finalPdfUrl;
-            }
-
-            // 更新選單按鈕的 active 視覺樣式
-            for (let i = 1; i <= 3; i++) {
-                const btn = document.getElementById(`btn-tab-${i}`);
-                if (!btn) continue;
-
-                if (i === tabNum) {
-                    // 選中狀態：白底深綠字、帶綠色小圓圈
-                    btn.className = "px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 bg-white text-brand-900 shadow-sm flex items-center gap-2";
-                    // 如果沒有圓點則補上
-                    if (!btn.querySelector('span')) {
-                        const dot = document.createElement('span');
-                        dot.className = "w-2 h-2 rounded-full bg-emerald-600";
-                        btn.prepend(dot);
-                    }
-                } else {
-                    // 未選中狀態：半透明白
-                    btn.className = "px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 text-emerald-100 hover:text-white hover:bg-brand-900/40 flex items-center gap-2";
-                    // 移除圓點
-                    const dot = btn.querySelector('span');
-                    if (dot) {
-                        dot.remove();
+                    if (i === tabNum) {
+                        // 選中狀態：白底深綠字、帶綠色小圓圈
+                        btn.className = "px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 bg-white text-brand-900 shadow-sm flex items-center gap-2";
+                        
+                        // 如果按鈕內沒有綠色圓點，則動態加入
+                        if (!btn.querySelector('span')) {
+                            const dot = document.createElement('span');
+                            dot.className = "w-2 h-2 rounded-full bg-emerald-600";
+                            btn.prepend(dot);
+                        }
+                    } else {
+                        // 未選中狀態：半透明白，滑過變亮
+                        btn.className = "px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 text-emerald-100 hover:text-white hover:bg-brand-900/40 flex items-center gap-2";
+                        
+                        // 移除未選中按鈕內的圓點
+                        const dot = btn.querySelector('span');
+                        if (dot && dot.parentNode) {
+                            dot.parentNode.removeChild(dot);
+                        }
                     }
                 }
+            } catch (err) {
+                console.warn("按鈕視覺狀態更新失敗:", err);
             }
 
-            showToast(`📄 已切換至第 ${tabNum} 份文件`);
-            
-            // 切換時自動平滑滾動回頁頂
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // 【重要修正步驟 2】：更改 iframe 的 src 載入新檔案（使用 try-catch 包覆，預防跨域限制引起的 JS 卡死）
+            try {
+                let pdfFilename = "";
+                
+                // 對應您上傳至 GitHub 的三個檔案
+                if (tabNum === 1) {
+                    pdfFilename = "03_DRMA_meeting_info.pdf";
+                } else if (tabNum === 2) {
+                    pdfFilename = "01_DRMA_project.pdf";
+                } else if (tabNum === 3) {
+                    pdfFilename = "02_DRTSAI_health_perspective.pdf";
+                }
+
+                const finalPdfUrl = getPdfUrl(pdfFilename);
+                const iframe = document.getElementById("pdf-viewer-iframe");
+                const fallbackLink = document.getElementById("fallback-pdf-link");
+                
+                if (iframe) {
+                    iframe.src = finalPdfUrl;
+                }
+                if (fallbackLink) {
+                    fallbackLink.href = finalPdfUrl;
+                }
+            } catch (err) {
+                console.error("Iframe src 載入更新失敗:", err);
+            }
+
+            // 【重要修正步驟 3】：顯示吐司提示並滾動頁面
+            try {
+                showToast(`📄 已切換至第 ${tabNum} 份文件`);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } catch (err) {
+                console.warn("Toast 顯示失敗:", err);
+            }
         }
 
         // 監聽網頁滾動，控制 Go Top 按鈕的出現與消失
         window.onscroll = function() {
-            const goTopBtn = document.getElementById("go-top-btn");
-            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-                goTopBtn.classList.remove("opacity-0", "pointer-events-none", "translate-y-4");
-                goTopBtn.classList.add("opacity-100", "translate-y-0");
-            } else {
-                goTopBtn.classList.add("opacity-0", "pointer-events-none", "translate-y-4");
-                goTopBtn.classList.remove("opacity-100", "translate-y-0");
+            try {
+                const goTopBtn = document.getElementById("go-top-btn");
+                if (goTopBtn) {
+                    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                        goTopBtn.classList.remove("opacity-0", "pointer-events-none", "translate-y-4");
+                        goTopBtn.classList.add("opacity-100", "translate-y-0");
+                    } else {
+                        goTopBtn.classList.add("opacity-0", "pointer-events-none", "translate-y-4");
+                        goTopBtn.classList.remove("opacity-100", "translate-y-0");
+                    }
+                }
+            } catch (e) {
+                console.error("goTop scroll listener failed:", e);
             }
         };
 
         // 平滑回到頂部
         function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            try {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } catch (e) {
+                window.scrollTo(0, 0); // 備用方案
+            }
         }
 
         // 訊息吐司通知
         function showToast(text) {
-            const toast = document.getElementById("toast");
-            const toastText = document.getElementById("toast-text");
-            
-            toastText.textContent = text;
-            toast.classList.remove("translate-y-20", "opacity-0");
-            toast.classList.add("translate-y-0", "opacity-100");
-            
-            setTimeout(() => {
-                toast.classList.remove("translate-y-0", "opacity-100");
-                toast.classList.add("translate-y-20", "opacity-0");
-            }, 2500);
+            try {
+                const toast = document.getElementById("toast");
+                const toastText = document.getElementById("toast-text");
+                
+                if (toast && toastText) {
+                    toastText.textContent = text;
+                    toast.classList.remove("translate-y-20", "opacity-0");
+                    toast.classList.add("translate-y-0", "opacity-100");
+                    
+                    setTimeout(() => {
+                        toast.classList.remove("translate-y-0", "opacity-100");
+                        toast.classList.add("translate-y-20", "opacity-0");
+                    }, 2500);
+                }
+            } catch (e) {
+                console.warn("showToast failed:", e);
+            }
         }
     </script>
 </body>
